@@ -24,7 +24,8 @@ class Orchestrator:
         variables["options"] = "Sqrt, Multiply"
 
         # Retrieve the intent from the user request
-        get_intent = self._kernel.skills.get_function("OrchestratorPlugin", "GetIntent")
+        get_intent = self._kernel.skills.get_function(
+            "OrchestratorPlugin", "GetIntent")
         intent = (
             await self._kernel.run_async(get_intent, input_vars=variables)
         ).result.strip()
@@ -42,9 +43,11 @@ class Orchestrator:
 
         # Retrieve the correct function based on the intent
         if intent == "Sqrt":
-            math_function = self._kernel.skills.get_function("MathPlugin", "Sqrt")
+            math_function = self._kernel.skills.get_function(
+                "MathPlugin", "Sqrt")
         elif intent == "Multiply":
-            math_function = self._kernel.skills.get_function("MathPlugin", "Multiply")
+            math_function = self._kernel.skills.get_function(
+                "MathPlugin", "Multiply")
         else:
             return "I'm sorry, I don't understand."
 
@@ -76,7 +79,7 @@ class Orchestrator:
         description="Extracts numbers from JSON",
         name="ExtractNumbersFromJson",
     )
-    def extract_numbers_from_json(self, context: SKContext):
+    def extract_numbers_from_json(self, context: SKContext) -> str:
         numbers = json.loads(context["input"])
 
         # Loop through numbers and add them to the context
@@ -88,4 +91,4 @@ class Orchestrator:
                 # Add the rest of the numbers to the context
                 context[key] = str(value)
 
-        return context
+        return context['input']
